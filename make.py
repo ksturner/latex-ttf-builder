@@ -176,22 +176,37 @@ def handle_ttfs(args):
     # like storing additional, temporary files inside the source code here so
     # that we can use them, and delete them afterwards but always know that we
     # have what we need to do what we want to do.
+
+    # ensure enc file exists.
+    fn = 'T1-WGL4.enc'
+    cleanup_files.append(fn)
+    if not os.path.exists(fn) or args.force:
+        fout = open(fn, 'w')
+        fout.write(files[fn])
+        fout.close()
+
     for ttf in args.ttfs:
+        (basename, ext) = os.path.splitext(ttf)
         logging.info("reading %s", ttf)
+
         if not os.path.exists(ttf):
             logging.warning('skipping {}; does not exist'.format(ttf))
             continue
 
-        # ensure enc file exists.
-        fn = 'T1-WGL4.enc'
-        cleanup_files.append(fn)
-        if not os.path.exists(fn) or args.force:
-            fout = open(fn, 'w')
-            fout.write(files[fn])
-            fout.close()
+        # We really want the ttf to be lowercase, so rename the file if we
+        # need to.
+        print basename
+        if basename != basename.lower():
+            newttf = '{}{}'.format(basename.lower(), ext)
+            logging.warning('renaming {} to {}'.format(ttf, newttf)
+            os.rename(ttf, newttf)
+            ttf = newttf
+            basename = basename.lower()
+            return
+        print 'ttf =', ttf
+        print 'basename =', basename
 
         # ensure the t1<BLAH>.fd file exists
-        (basename, ext) = os.path.splitext(ttf)
         fn = 't1{}.fd'.format(basename)
         cleanup_files.append(fn)
         if not os.path.exists(fn) or args.force:
@@ -224,7 +239,6 @@ def main(args):
             logging.error("please add '%s' to file %s",
                           line, args.infile.name)
             return
-
 
     (basename, ext) = os.path.splitext(args.infile.name)
     cmd = 'pdflatex {}'.format(args.infile.name)
