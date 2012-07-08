@@ -195,16 +195,13 @@ def handle_ttfs(args):
 
         # We really want the ttf to be lowercase, so rename the file if we
         # need to.
-        print basename
         if basename != basename.lower():
             newttf = '{}{}'.format(basename.lower(), ext)
-            logging.warning('renaming {} to {}'.format(ttf, newttf)
+            logging.warning('renaming {} to {}'.format(ttf, newttf))
             os.rename(ttf, newttf)
             ttf = newttf
             basename = basename.lower()
             return
-        print 'ttf =', ttf
-        print 'basename =', basename
 
         # ensure the t1<BLAH>.fd file exists
         fn = 't1{}.fd'.format(basename)
