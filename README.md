@@ -32,6 +32,23 @@ with a \newcommand..  Copy this line, add it to your tex file and rerun. You
 can of course use the new font with the custom font command that the line just
 defined for you.
 
+For example, if if if, I have a font file called *kevin.ttf*, the tex to
+define that font command that I would need to add would look like:
+
+```latex
+\newcommand\kevin[1]{{\usefont{T1}{kevin}{m}{n} #1 }}
+```
+
+I would then use the font later in the tex document like this:
+
+
+```latex
+\kevin{some text here that I want in this font}
+```
+
+If you have both of those lines in your tex file, you should see the font
+in the rendered pdf file.
+
 
 Dependencies
 ------------
