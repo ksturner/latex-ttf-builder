@@ -14,7 +14,6 @@ Author: Kevin Turner
 import argparse
 import logging
 import os
-from subprocess import Popen, PIPE
 import sys
 
 files = {
