@@ -1,4 +1,16 @@
 #!/usr/bin/env python
+'''
+Simple python script to automate using ttf fonts with a latex document to
+generate pdf files.
+
+The core concepts for using one-off ttf fonts without installing them to the
+system was adapted from the work of jyzhao at:
+    http://math.stanford.edu/~jyzhao/latexfonts.php
+
+Author: Kevin Turner
+        @ksturner
+
+'''
 import argparse
 import logging
 import os
@@ -170,7 +182,7 @@ def setup_logger(args):
 
 
 def handle_ttfs(args):
-    ''' Takes a ttf font and creates the files necessary for TeX to use. '''
+    ''' Takes ttf fonts and creates the files necessary for TeX to use. '''
     global cleanup_files, required_lines
     # NOTE: This is a big shell script essentially, but we do some neat things
     # like storing additional, temporary files inside the source code here so
@@ -229,6 +241,10 @@ def handle_ttfs(args):
 
 
 def main(args):
+    '''
+    Assumes ttf files have been converted and if so, generates the
+    pdf file for the tex document.
+    '''
     global cleanup_files, required_lines
     data = args.infile.read()
     for line in required_lines:
@@ -249,6 +265,7 @@ def main(args):
 
 
 def cleanup_temp_files(args):
+    ''' Cleans up any temporary files. '''
     global cleanup_files
     for fn in cleanup_files:
         (basename, ext) = os.path.splitext(fn)
