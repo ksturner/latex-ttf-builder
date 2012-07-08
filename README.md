@@ -17,7 +17,7 @@ Example
 In general, this script can be run like the following:
 
 ```bash
-python make.py test.tex --ttf custom1.ttf custom2.ttf
+python make.py test.tex --ttf kevin.ttf custom2.ttf
 ```
 
 The script will generate the necessary tfm files for the ttf fonts, build
